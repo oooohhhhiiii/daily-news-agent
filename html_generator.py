@@ -158,7 +158,8 @@ def main():
         print("파싱된 기사가 없습니다.")
         sys.exit(1)
 
-    html_content = _render_html(title, date, articles)
+    source_label = "더벨 (TheBell)" if "더벨" in title else "Daily News Agent"
+    html_content = _render_html(title, date, articles, source_label=source_label)
     output_path.write_text(html_content, encoding="utf-8")
     print(f"HTML 생성 완료: {output_path} ({len(articles)}개 기사)")
 

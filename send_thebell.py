@@ -8,6 +8,14 @@ from datetime import datetime, timedelta
 from collections import defaultdict
 from html_generator import generate_thebell_html
 
+# 카테고리 한글→영문 매핑 (CLAUDE.md 파일명 규칙과 일치)
+CATEGORY_FILENAME_MAP = {
+    "Deal": "deal",
+    "금융": "finance",
+    "투자": "invest",
+    "산업": "industry",
+}
+
 ENV_PATH = Path(__file__).parent / ".env"
 
 
@@ -103,7 +111,8 @@ def main():
     for category, articles in articles_by_category.items():
         html_content = generate_thebell_html(category, date_display, articles)
         date_short = yesterday.strftime('%y%m%d')
-        html_file = output_dir / f"TheBell_{category}_{date_short}.html"
+        filename_category = CATEGORY_FILENAME_MAP.get(category, category)
+        html_file = output_dir / f"TheBell_{filename_category}_{date_short}.html"
         html_file.write_text(html_content, encoding="utf-8")
 
         caption = f"📰 더벨 {category} ({date_display})"
